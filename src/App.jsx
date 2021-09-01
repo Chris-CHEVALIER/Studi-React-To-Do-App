@@ -1,14 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from './logo.png';
 import './App.css';
 import MyButton from './components/MyButton';
 import ListModal from './components/ListModal';
 import { PlusOutlined } from '@ant-design/icons';
+import Fire from "./Fire";
+import { Spin } from 'antd';
+import ListCard from './components/ListCard';
 
 export default function App() {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [lists, setLists] = useState([]);
+  const [selectedList, setSelectedList] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  console.log(isModalVisible);
+  useEffect(() => {
+    const firebase = new Fire((error) => {
+      if (error) {
+        setError(error);
+      } else {
+        firebase.getLists(lists => {
+          setLists(lists);
+          setLoading(false);
+        });
+      }
+      return function unsubscribe() {
+        firebase.detach();
+      }
+    });
+  }, []);
 
   return (
     <div className="App">
@@ -17,6 +38,14 @@ export default function App() {
         <p>
           Bienvenue sur mon application de gestion de listes
         </p>
+        {error && (<p className="text-danger">Erreur : {error.message}</p>)}
+        {loading ? <Spin /> : (
+          <div className="d-flex flex-wrap">
+            {lists.map(list => (  
+              <ListCard list={list} setIsModalVisible={setIsModalVisible} setSelectedList={setSelectedList} />
+            ))}
+          </div>
+        )}
         <MyButton
           tooltip="Ajouter une liste"
           onClick={() => setIsModalVisible(true)}
@@ -24,7 +53,7 @@ export default function App() {
         >
           Ajouter une liste
         </MyButton>
-        <ListModal modalTitle="Ajouter une liste" isVisible={isModalVisible} handleCancel={() => setIsModalVisible(false)} />
+        <ListModal list={selectedList} modalTitle={selectedList ? "Modifier la liste" : "Ajouter une liste"} isVisible={isModalVisible} handleCancel={() => setIsModalVisible(false)} />
       </header>
     </div>
   );
