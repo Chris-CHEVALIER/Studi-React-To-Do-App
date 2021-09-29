@@ -42,7 +42,7 @@ export default function App() {
         {loading ? <Spin /> : (
           <div className="d-flex flex-wrap">
             {lists.map(list => (  
-              <ListCard list={list} setIsModalVisible={setIsModalVisible} setSelectedList={setSelectedList} />
+              <ListCard key={list.id} list={list} setIsModalVisible={setIsModalVisible} setSelectedList={setSelectedList} />
             ))}
           </div>
         )}
@@ -53,7 +53,9 @@ export default function App() {
         >
           Ajouter une liste
         </MyButton>
-        <ListModal list={selectedList} modalTitle={selectedList ? "Modifier la liste" : "Ajouter une liste"} isVisible={isModalVisible} handleCancel={() => setIsModalVisible(false)} />
+        {isModalVisible && (
+          <ListModal list={selectedList} modalTitle={selectedList ? "Modifier la liste" : "Ajouter une liste"} isVisible={isModalVisible} handleCancel={() => setIsModalVisible(false)} />
+        )}
       </header>
     </div>
   );

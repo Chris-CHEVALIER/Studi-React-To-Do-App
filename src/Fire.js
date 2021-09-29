@@ -1,12 +1,12 @@
 import firebase from "firebase";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBA08FA7xKUSjHEQxS9KXA4k33ajvG1hO0",
-    authDomain: "todo-fb0fd.firebaseapp.com",
-    projectId: "todo-fb0fd",
-    storageBucket: "todo-fb0fd.appspot.com",
-    messagingSenderId: "467443353077",
-    appId: "1:467443353077:web:8c089ba4aeb575a2094cbc"
+    apiKey: "AIzaSyBheznryneyMUt891q98hqZja4X7T4Vl8E",
+    authDomain: "todoapp-131c7.firebaseapp.com",
+    projectId: "todoapp-131c7",
+    storageBucket: "todoapp-131c7.appspot.com",
+    messagingSenderId: "549328675845",
+    appId: "1:549328675845:web:2bd4947b8e06b336c7286c"
 };
 
 export default class Fire {
